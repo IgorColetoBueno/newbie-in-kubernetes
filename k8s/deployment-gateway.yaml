@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wheaterforecast-gateway
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: wheaterforecast-gateway
+  template:
+    metadata:
+      labels:
+        app: wheaterforecast-gateway
+    spec:
+      containers:
+        - name: wheaterforecast-gateway
+          image: igorcoletobueno/weather-forecast-gateway:latest     
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: wheaterforecast-gateway
+spec:
+  type: NodePort
+  selector:
+    app: wheaterforecast-gateway
+  ports:
+    - name: http
+      protocol: TCP
+      port: 80
+      nodePort: 31000

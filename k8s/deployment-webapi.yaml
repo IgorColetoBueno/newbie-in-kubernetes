@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wheaterforecast
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: wheaterforecast
+  template:
+    metadata:
+      labels:
+        app: wheaterforecast
+    spec:
+      containers:
+        - name: wheaterforecast
+          image: igorcoletobueno/weather-forecast:latest     
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: wheaterforecast
+spec:
+  type: ClusterIP
+  selector:
+    app: wheaterforecast
+  ports:
+    - name: http
+      protocol: TCP
+      port: 5010
+      targetPort: 5010
